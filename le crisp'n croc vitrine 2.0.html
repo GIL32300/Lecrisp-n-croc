@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Crisp'n Croc - Traiteur d'entreprise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        /* Styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* En-tête */
+        header {
+            background-color: #ff0000;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 10px 0;
+            background-color: rgba(255, 0, 0, 0.9);
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            height: 60px;
+            margin-right: 15px;
+            transition: all 0.3s;
+        }
+        
+        header.scrolled .logo-img {
+            height: 50px;
+        }
+        
+        .logo-text h1 {
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            animation: fadeInDown 1s;
+            line-height: 1;
+        }
+        
+        .logo-text span {
+            color: black;
+        }
+        
+        .logo-text .slogan {
+            font-size: 0.9rem;
+            font-style: italic;
+            color: white;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+            position: relative;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: black;
+            bottom: -5px;
+            left: 0;
+            transition: width 0.3s ease;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: black;
+        }
+        
+        /* Bannière */
+        .banner {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+        
+        .banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+        }
+        
+        .banner-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .banner-content h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        
+        .banner-content p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #ff0000;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:hover {
+            background-color: black;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn::after {
+            content: "";
+            display: inline-block;
+            height: 100%;
+            width: 100%;
+            border-radius: 5px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            transition: all 0.4s;
+            background-color: #ff0000;
+        }
+        
+        .btn:hover::after {
+            transform: scaleX(1.4) scaleY(1.6);
+            opacity: 0;
+        }
+        
+        /* Sections */
+        section {
+            padding: 100px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease;
+        }
+        
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: #ff0000;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: black;
+            animation: expandLine 2s ease-out infinite;
+        }
+        
+        /* À propos */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: black;
+        }
+        
+        .about-image {
+            flex: 1;
+            perspective: 1000px;
+        }
+        
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .about-image:hover img {
+            transform: rotateY(10deg) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Clients */
+        .clients {
+            background-color: #f1f1f1;
+        }
+        
+        .client-logos {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        
+        .client-logos div {
+            background-color: white;
+            padding: 20px 40px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .client-logos div:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            background-color: #ff0000;
+            color: white;
+        }
+        
+        /* Contact */
+        .contact-info {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .contact-card {
+            flex: 1;
+            min-width: 250px;
+            background-color: #ff0000;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .contact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .contact-card i {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+        
+        .contact-card:hover i {
+            transform: scale(1.2);
+        }
+        
+        .contact-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        /* Pied de page */
+        footer {
+            background-color: black;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-section h3 {
+            color: #ff0000;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .social-icons a {
+            color: white;
+            margin: 0 10px;
+            font-size: 1.5rem;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+        
+        .social-icons a:hover {
+            color: #ff0000;
+            transform: translateY(-5px);
+        }
+        
+        .copyright {
+            border-top: 1px solid #444;
+            padding-top: 20px;
+        }
+        
+        /* Animations personnalisées */
+        @keyframes expandLine {
+            0% { width: 80px; }
+            50% { width: 120px; }
+            100% { width: 80px; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                justify-content: center;
+                margin-bottom: 15px;
+            }
+            
+            nav ul {
+                justify-content: center;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .banner-content h2 {
+                font-size: 2rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .logo-img {
+                height: 50px;
+                margin-right: 10px;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .logo {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .logo-img {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+            
+            nav ul li {
+                margin-left: 10px;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <!-- En-tête -->
+    <header id="header">
+        <div class="container">
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="CNC fond blanc.jpg" alt="Logo Le Crisp'n Croc" class="logo-img animate__animated animate__fadeInDown">
+                    <div class="logo-text">
+                        <h1>Le <span>Crisp'n Croc</span></h1>
+                        <p class="slogan">Service traiteur d'entreprise</p>
+                    </div>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#accueil" class="animate__animated animate__fadeInDown animate__delay-1s">Accueil</a></li>
+                        <li><a href="#apropos" class="animate__animated animate__fadeInDown animate__delay-1s">À propos</a></li>
+                        <li><a href="#clients" class="animate__animated animate__fadeInDown animate__delay-1s">Clients</a></li>
+                        <li><a href="#contact" class="animate__animated animate__fadeInDown animate__delay-1s">Contact</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Bannière -->
+    <section class="banner" id="accueil">
+        <div class="banner-content">
+            <h2 class="animate__animated animate__fadeIn animate__delay-1s">Service traiteur d'entreprise</h2>
+            <p class="animate__animated animate__fadeIn animate__delay-1-5s">Des repas savoureux et professionnels pour vos collaborateurs</p>
+            <a href="#contact" class="btn animate__animated animate__fadeInUp animate__delay-2s">Contactez-nous</a>
+        </div>
+    </section>
+
+    <!-- À propos -->
+    <section id="apropos">
+        <div class="container">
+            <div class="section-title">
+                <h2>À propos de nous</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Le Crisp'n Croc - Excellence culinaire</h3>
+                    <p>Dirigé par le Chef Well-come MIKEMO, Le Crisp'n Croc est un service traiteur spécialisé dans la restauration d'entreprise. Nous apportons une touche d'excellence et de créativité à chaque repas que nous préparons.</p>
+                    <p>Notre mission est de satisfaire les papilles de vos collaborateurs avec des plats savoureux, préparés avec des ingrédients frais et de qualité, tout en respectant les délais et les contraintes de votre entreprise.</p>
+                    <p>Que ce soit pour des déjeuners d'affaires, des séminaires ou des événements spéciaux, notre équipe est à votre disposition pour créer une expérience culinaire mémorable.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="Chef préparant un plat" class="floating">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clients -->
+    <section class="clients" id="clients">
+        <div class="container">
+            <div class="section-title">
+                <h2>Ils nous font confiance</h2>
+            </div>
+            <div class="client-logos">
+                <div class="animate__animated">Congo Telecom</div>
+                <div class="animate__animated">ICC Brazzaville</div>
+                <div class="animate__animated">Particuliers</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contactez-nous</h2>
+            </div>
+            <div class="contact-info">
+                <div class="contact-card animate__animated">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h3>Adresse</h3>
+                    <p>06 rue Berlioz la glacière<br>Congo, Brazzaville</p>
+                </div>
+                <div class="contact-card animate__animated">
+                    <i class="fas fa-phone"></i>
+                    <h3>Téléphone</h3>
+                    <p>00242 069750892</p>
+                </div>
+                <div class="contact-card animate__animated">
+                    <i class="fas fa-envelope"></i>
+                    <h3>Email</h3>
+                    <p>contact@lecrispncroc.com</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section animate__animated">
+                    <img src="CNC fond blanc.jpg" alt="Logo Le Crisp'n Croc" style="height: 80px; margin-bottom: 15px;">
+                    <p>Service traiteur spécialisé dans la gestion des restaurants d'entreprise.</p>
+                </div>
+                <div class="footer-section animate__animated">
+                    <h3>Liens rapides</h3>
+                    <ul style="list-style: none;">
+                        <li><a href="#accueil" style="color: white; text-decoration: none;">Accueil</a></li>
+                        <li><a href="#apropos" style="color: white; text-decoration: none;">À propos</a></li>
+                        <li><a href="#clients" style="color: white; text-decoration: none;">Clients</a></li>
+                        <li><a href="#contact" style="color: white; text-decoration: none;">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section animate__animated">
+                    <h3>Réseaux sociaux</h3>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Le Crisp'n Croc. Tous droits réservés.</p>
+                <p>Dirigé par le Chef Well-come MIKEMO</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Animation au défilement
+        document.addEventListener('DOMContentLoaded', function() {
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                const header = document.getElementById('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            // Section appear on scroll
+            const sections = document.querySelectorAll('section');
+            
+            function checkScroll() {
+                sections.forEach(section => {
+                    const sectionTop = section.getBoundingClientRect().top;
+                    const windowHeight = window.innerHeight;
+                    
+                    if (sectionTop < windowHeight - 100) {
+                        section.classList.add('visible');
+                        
+                        // Animate client logos one by one
+                        if (section.id === 'clients') {
+                            const logos = document.querySelectorAll('.client-logos div');
+                            logos.forEach((logo, index) => {
+                                setTimeout(() => {
+                                    logo.classList.add('animate__fadeInUp');
+                                }, index * 200);
+                            });
+                        }
+                        
+                        // Animate contact cards one by one
+                        if (section.id === 'contact') {
+                            const cards = document.querySelectorAll('.contact-card');
+                            cards.forEach((card, index) => {
+                                setTimeout(() => {
+                                    card.classList.add('animate__fadeInUp');
+                                }, index * 200);
+                            });
+                        }
+                    }
+                });
+            }
+            
+            // Initial check
+            checkScroll();
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkScroll);
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
